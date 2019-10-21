@@ -12,15 +12,27 @@ public class PredictionFunc
     private int peersCount;
     private LinkedHashMap<String, Double> predictions;
     
+    /**
+     * The class that implements the prediction function
+     * @param user The target user
+     * @param peers LinkedHashMap<User,Double> of the target peers and their similarity score
+     * @param flag if true the system will ignore all items that the target user has already rated (default value)
+     * @param peersCount The number of peers that should have recommended the specific item, in order to take it into account.
+     */
     public PredictionFunc(final User user, final LinkedHashMap<User, Double> peers, final boolean flag, final int peersCount) {
-        this.flag = true;
         this.peers = peers;
         this.flag = flag;
         this.peersCount = peersCount;
-        this.predictions = new LinkedHashMap<String, Double>();
+        this.predictions = new LinkedHashMap<>();
         this.user = user;
     }
     
+    
+    /**
+     * The prediction function for a target user
+     * @param k the number of items that the system should recommend. If it is negative recommend all possible items.
+     * @return The k items with the highest prediction score.
+     */
     public LinkedHashMap<String, Double> predict(final int k) {
         final HashSet<String> peersItems = this.getPeersItems();
         Set<String> ratedItems = null;

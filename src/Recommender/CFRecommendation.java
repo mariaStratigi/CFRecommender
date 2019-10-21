@@ -21,17 +21,23 @@ public class CFRecommendation
         this.users = users;
     }
     
-    public void setPearsonVariables(final double th, final int peers, final int common, final int peersCount) {
+    public void setPearsonVariables(final double th, final int peers, final int common) {
         this.numPeers = peers;
         this.th = th;
         this.numCommon = common;
+    }
+    
+    public void setPredFuncVariables(final boolean igoreRated, final int peersCount){
         this.peersCount = peersCount;
+        this.flag = igoreRated;
     }
     
-    public void ignoreRated(final boolean flag) {
-        this.flag = flag;
-    }
-    
+    /**
+     * Make all the necessary operations in order to recommend items to a specific user.
+     * @param id The id of the user
+     * @param k How many items to recommend. If this is a negative number, recommend all available items.
+     * @return The recommended items to the user.
+     */
     public LinkedHashMap<String, Double> recommend(final String id, final int k) {
         if (!this.users.containsKey(id)) {
             System.out.println("The user Id: " + id + " is invalid");

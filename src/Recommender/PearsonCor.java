@@ -12,14 +12,25 @@ public class PearsonCor
     private int numCommon;
     private LinkedHashMap<User, Double> sims;
     
+    /**
+     * The class that implements the similarity function.
+     * @param users All the users in the system
+     * @param th The threshold of the similarity. Users that have lower than 'th' similarity with the target user are ignored
+     * @param numPeers The number of peers that we will take into account, for the following prediction function.
+     * @param numCommon The number of items that two users should have in common in order for us to consider them.
+     */
     public PearsonCor(final LinkedHashMap<String, User> users, final double th, final int numPeers, final int numCommon) {
         this.users = users;
         this.th = th;
         this.numPeers = numPeers;
         this.numCommon = numCommon;
-        this.sims = new LinkedHashMap<User, Double>();
+        this.sims = new LinkedHashMap<>();
     }
     
+    /**
+     * Calculates the Pearson Correlation Similarity given a target user with id 'id'.
+     * @param id 
+     */
     private void calcPearsonSim(final String id) {
         if (this.users.containsKey(id)) {
             final User gUser = this.users.get(id);
@@ -65,7 +76,11 @@ public class PearsonCor
         bd = bd.setScale(3, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
-    
+    /**
+     * The function that calculates 'numPeers' peers for the target user with the highest similarity score.
+     * @param userId The target user
+     * @return LinkedHashMap<User,Double>: key: the peer user, value: the similarity score.
+     */
     public LinkedHashMap<User, Double> getPeers(final String userId) {
         this.calcPearsonSim(userId);
         this.sims = (LinkedHashMap<User, Double>)sortByValues(this.sims);
@@ -76,7 +91,7 @@ public class PearsonCor
             System.out.println("PearsonCor-getPeers says:\nInvalid number of peers");
             return null;
         }
-        final LinkedHashMap<User, Double> peers = new LinkedHashMap<User, Double>();
+        final LinkedHashMap<User, Double> peers = new LinkedHashMap<>();
         int count = 0;
         for (final User u : this.sims.keySet()) {
             peers.put(u, this.sims.get(u));

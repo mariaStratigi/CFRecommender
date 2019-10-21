@@ -11,8 +11,8 @@ public class User
     
     public User(final String id) {
         this.id = id;
-        this.ratings = new LinkedHashMap<String, Double>();
-        this.moviesRated = new HashSet<String>();
+        this.ratings = new LinkedHashMap<>();
+        this.moviesRated = new HashSet<>();
     }
     
     public String getId() {
@@ -36,6 +36,10 @@ public class User
         return this.mean;
     }
     
+    /**
+     * Calculate the mean rating score of the user.
+     * Used in similarity and prediction functions.
+     */
     public void setMean() {
         double sum = 0.0;
         for (final Double d : this.ratings.values()) {
